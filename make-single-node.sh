@@ -2,7 +2,7 @@ cd ~
 sudo apt-get update
 
 # Download java jdk
-sudo apt-get install openjdk-7-jdk
+sudo apt-get install -y openjdk-7-jdk
 cd /usr/lib/jvm
 sudo ln -s java-7-openjdk-amd64 jdk
 
@@ -12,6 +12,7 @@ sudo apt-get install openssh-server
 # Add hadoop user
 sudo addgroup hadoop
 sudo adduser --ingroup hadoop hduser
+echo hduser:hduser | sudo chpasswd
 sudo adduser hduser sudo
 
 # Generate keys
@@ -19,14 +20,14 @@ sudo -u hduser ssh-keygen -t rsa -P ''
 sudo sh -c 'cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys'
 #ssh localhost
 
-# Download Hadoop and set permissons
+# Download Hadoop to the synced directory if it doesn't exist and set permissons
 cd ~
-if [ ! -f hadoop-2.2.0.tar.gz ]; then
-	wget http://apache.osuosl.org/hadoop/common/hadoop-2.2.0/hadoop-2.2.0.tar.gz
+if [ ! -f /vagrant/hadoop-2.4.1.tar.gz ]; then
+	wget http://apache.osuosl.org/hadoop/common/hadoop-2.4.1/hadoop-2.4.1.tar.gz -p /vagrant/
 fi
-sudo tar vxzf hadoop-2.2.0.tar.gz -C /usr/local
+sudo tar vxzf /vagrant/hadoop-2.4.1.tar.gz -C /usr/local
 cd /usr/local
-sudo mv hadoop-2.2.0 hadoop
+sudo mv hadoop-2.4.1 hadoop
 sudo chown -R hduser:hadoop hadoop
 
 # Hadoop variables
@@ -64,8 +65,12 @@ cd /usr/local/hadoop/etc/hadoop
 sudo -u hduser sed -i.bak 's=<configuration>=<configuration>\<property>\<name>dfs\.replication</name>\<value>1\</value>\</property>\<property>\<name>dfs\.namenode\.name\.dir</name>\<value>file:/home/hduser/mydata/hdfs/namenode</value>\</property>\<property>\<name>dfs\.datanode\.data\.dir</name>\<value>file:/home/hduser/mydata/hdfs/datanode</value>\</property>=g' hdfs-site.xml
 
 
+# SSH into the box
+#vagrant ssh -- -l hduser
+#password: hduser
+
 # Format Namenode
-#sudo sh -c 'hdfs namenode -format'
+#hdfs namenode -format
 
 # Start Hadoop Service
 #sudo -u hduser start-dfs.sh
