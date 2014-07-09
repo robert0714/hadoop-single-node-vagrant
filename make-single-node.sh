@@ -1,13 +1,4 @@
-cd ~ 
-sudo apt-get update
-
-# Download java jdk
-sudo apt-get install -y openjdk-7-jdk
-cd /usr/lib/jvm
-sudo ln -s java-7-openjdk-amd64 jdk
-
-# Uncommment to install ssh 
-sudo apt-get install openssh-server
+#!/usr/bin/env bash
 
 # Add hadoop user
 sudo addgroup hadoop
@@ -15,17 +6,25 @@ sudo adduser --ingroup hadoop hduser
 echo hduser:hduser | sudo chpasswd
 sudo adduser hduser sudo
 
-# Generate keys
-sudo -u hduser ssh-keygen -t rsa -P ''
-sudo sh -c 'cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys'
-#ssh localhost
+sudo -u hduser ssh-keygen -t rsa -P '' -f /home/hduser/.ssh/id_rsa
+sudo sh -c  "cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys"
+# Prevent ssh setup questions
+sudo sh -c  "printf 'NoHostAuthenticationForLocalhost yes
+Host *
+    StrictHostKeyChecking no' > /home/hduser/.ssh/config"
 
-# Download Hadoop to the synced directory if it doesn't exist and set permissons
-cd ~
-if [ ! -f /vagrant/hadoop-2.4.1.tar.gz ]; then
-	wget http://apache.osuosl.org/hadoop/common/hadoop-2.4.1/hadoop-2.4.1.tar.gz -p /vagrant/
+# Download java jdk
+sudo apt-get update
+sudo apt-get install -y openjdk-7-jdk
+sudo ln -s java-7-openjdk-amd64 /usr/lib/jvm/jdk
+
+# Download Hadoop to the vagrant shared directory if it doesn't exist yet
+cd /vagrant
+if [ ! -f hadoop-2.4.1.tar.gz ]; then
+	wget http://apache.osuosl.org/hadoop/common/hadoop-2.4.1/hadoop-2.4.1.tar.gz
 fi
-sudo tar vxzf /vagrant/hadoop-2.4.1.tar.gz -C /usr/local
+# Unpack hadoop and install
+sudo tar vxzf hadoop-2.4.1.tar.gz -C /usr/local
 cd /usr/local
 sudo mv hadoop-2.4.1 hadoop
 sudo chown -R hduser:hadoop hadoop
@@ -64,6 +63,7 @@ sudo mkdir -p mydata/hdfs/datanode
 cd /usr/local/hadoop/etc/hadoop
 sudo -u hduser sed -i.bak 's=<configuration>=<configuration>\<property>\<name>dfs\.replication</name>\<value>1\</value>\</property>\<property>\<name>dfs\.namenode\.name\.dir</name>\<value>file:/home/hduser/mydata/hdfs/namenode</value>\</property>\<property>\<name>dfs\.datanode\.data\.dir</name>\<value>file:/home/hduser/mydata/hdfs/datanode</value>\</property>=g' hdfs-site.xml
 
+su hduser -c "/usr/local/hadoop/bin/hdfs namenode -format"
 
 # SSH into the box
 #vagrant ssh -- -l hduser
