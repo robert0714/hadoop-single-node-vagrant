@@ -24,7 +24,7 @@ $ vagrant ssh -- -l hduser
 The password of *hduser* is `hduser`.
 You're good to go!
 
-## Taking the Hadoop for a testdrive
+## Taking Hadoop for a testdrive
 Of course you want to see some action. We'll use the [Hadoop wordcount](http://hadoop.apache.org/docs/r1.2.1/mapred_tutorial.html "Hadoop Wordcount Example Tutorial") example to show off to your friends. 
 
 #### Start HDFS and Yarn

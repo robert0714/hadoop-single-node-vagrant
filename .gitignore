@@ -1,2 +1,4 @@
 *.gz
 .vagrant/
+hadoop*
+hadoop-mapreduce-sametaste/
