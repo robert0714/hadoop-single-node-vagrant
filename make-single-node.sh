@@ -17,6 +17,7 @@ Host *
 sudo apt-get update
 sudo apt-get install -y openjdk-7-jdk
 sudo ln -s java-7-openjdk-amd64 /usr/lib/jvm/jdk
+sudo apt-get install -y nfs-common portmap
 
 # Download Hadoop to the vagrant shared directory if it doesn't exist yet
 cd /vagrant

@@ -6,7 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hadoop-single-node"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
   
   # Let make-single-node.sh provision the environment during 'vagrant up' or 'vragrant 
   # provision'
@@ -21,8 +21,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, 
       "--cpus", "2",
-      "--memory", "2048",
+      "--memory", "4096",
       "--cpuexecutioncap", "50"
     ]
   end
+
+  #https://coderwall.com/p/uaohzg
+  config.vm.synced_folder ".", "/vagrant", :nfs => true
+
+
 end

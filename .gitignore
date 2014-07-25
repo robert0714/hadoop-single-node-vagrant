@@ -2,3 +2,4 @@
 .vagrant/
 hadoop*
 hadoop-mapreduce-sametaste/
+**.swp
