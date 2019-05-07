@@ -31,6 +31,7 @@ Of course you want to see some action. We'll use the [Hadoop wordcount](http://h
 First things first, let's start HDFS and Yarn.
 
 ```bash
+$ sudo - hduser
 $ start-dfs.sh
 $ start-yarn.sh
 ```
@@ -47,7 +48,9 @@ $ jps
 11542 SecondaryNameNode
 ```
 
-You can also check the health of Hadoop by browsing to [http://192.168.33.10:50070/](http://192.168.33.10:50070/) on the host machine.
+You can also check the Hadoop ResourceManager Web by browsing to [http://10.100.192.100:8088](http://10.100.192.100:8088) on the host machine.
+
+You can also check the health of Hadoop by browsing to [http://10.100.192.100:50070](http://10.100.192.100:50070) on the host machine.
 
 #### Create the input directory and wordcount file in HDFS
 Create the directory that contains the input files of which the words are counted (-p creates the full path). For more information about the HDFS Shell commands, see the [Hadoop File System Shell Guide](http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html "Hadoop File System Shell Guide")

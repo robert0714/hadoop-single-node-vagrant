@@ -55,9 +55,12 @@ sudo -u hduser sed -i.bak 's=<configuration>=<configuration>\<property>\<name>ya
 sudo -u hduser cp mapred-site.xml.template mapred-site.xml
 sudo -u hduser sed -i.bak 's=<configuration>=<configuration>\<property>\<name>mapreduce\.framework\.name</name>\<value>yarn</value>\</property>=g' mapred-site.xml
  
-cd ~
-sudo mkdir -p mydata/hdfs/namenode
-sudo mkdir -p mydata/hdfs/datanode
+
+sudo mkdir -p /home/hduser/mydata/hdfs/namenode
+sudo mkdir -p /home/hduser/mydata/hdfs/datanode
+
+sudo chown hduser:hadoop  -R /home/hduser/mydata
+
 
 cd /usr/local/hadoop/etc/hadoop
 sudo -u hduser sed -i.bak 's=<configuration>=<configuration>\<property>\<name>dfs\.replication</name>\<value>1\</value>\</property>\<property>\<name>dfs\.namenode\.name\.dir</name>\<value>file:/home/hduser/mydata/hdfs/namenode</value>\</property>\<property>\<name>dfs\.datanode\.data\.dir</name>\<value>file:/home/hduser/mydata/hdfs/datanode</value>\</property>=g' hdfs-site.xml
