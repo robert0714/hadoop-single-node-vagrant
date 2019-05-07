@@ -3,3 +3,4 @@
 hadoop*
 hadoop-mapreduce-sametaste/
 **.swp
+**.log

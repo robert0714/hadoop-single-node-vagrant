@@ -1,33 +1,40 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "hadoop-single-node"
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
-  
-  # Let make-single-node.sh provision the environment during 'vagrant up' or 'vragrant 
-  # provision'
-  config.vm.provision :shell, :path => "make-single-node.sh"
-  
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.33.10"
-
-  # You can fiddle with these settings, however, insufficient resources might result in 
-  # timeouts during MapReduce jobs.
-  config.vm.provider "virtualbox" do |v|
-    v.customize ["modifyvm", :id, 
-      "--cpus", "2",
-      "--memory", "4096",
-      "--cpuexecutioncap", "50"
-    ]
+Vagrant.configure(2) do |config|
+  if (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+    config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=700,fmode=600"]
+  else
+    config.vm.synced_folder ".", "/vagrant"
   end
-
-  #https://coderwall.com/p/uaohzg
-  config.vm.synced_folder ".", "/vagrant", :nfs => true
-
-
+  config.vm.define "master" do |d|
+    d.vm.box = "ubuntu/bionic64"
+    d.vm.hostname = "master"
+    d.vm.network "private_network", ip: "10.100.192.100"
+    d.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]            
+      v.memory = 2048
+      v.cpus = 1
+    end
+  end  
+  (1..3).each do |i|
+    config.vm.define "data-#{i}" do |d|
+      d.vm.box = "ubuntu/bionic64"
+      d.vm.hostname = "data-#{i}"
+      d.vm.network "private_network", ip: "10.100.192.10#{i}"
+      d.vm.provision :shell, inline: "sudo apt-get install -y python"
+      d.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+        v.cpus = 1
+      end
+    end
+  end
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+    config.cache.synced_folder_opts = {
+      owner: "_apt"
+    }
+  end
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+    config.vbguest.no_install = true
+    config.vbguest.no_remote = true
+  end
 end

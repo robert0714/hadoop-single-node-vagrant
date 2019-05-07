@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#  Install rsync
+sudo apt-get install rsync
 
 # Add hadoop user
 sudo addgroup hadoop
@@ -15,19 +17,19 @@ Host *
 
 # Download java jdk
 sudo apt-get update
-sudo apt-get install -y openjdk-7-jdk
-sudo ln -s java-7-openjdk-amd64 /usr/lib/jvm/jdk
+sudo apt-get install -y openjdk-8-jdk
+sudo ln -s java-8-openjdk-amd64 /usr/lib/jvm/jdk
 sudo apt-get install -y nfs-common portmap
 
 # Download Hadoop to the vagrant shared directory if it doesn't exist yet
 cd /vagrant
-if [ ! -f hadoop-2.4.1.tar.gz ]; then
-	wget http://apache.osuosl.org/hadoop/common/hadoop-2.4.1/hadoop-2.4.1.tar.gz
+if [ ! -f hadoop-2.9.2.tar.gz ]; then
+	wget http://apache.osuosl.org/hadoop/common/hadoop-2.9.2/hadoop-2.9.2.tar.gz
 fi
 # Unpack hadoop and install
-sudo tar vxzf hadoop-2.4.1.tar.gz -C /usr/local
+sudo tar vxzf hadoop-2.9.2.tar.gz -C /usr/local
 cd /usr/local
-sudo mv hadoop-2.4.1 hadoop
+sudo mv hadoop-2.9.2 hadoop
 sudo chown -R hduser:hadoop hadoop
 
 # Hadoop variables
