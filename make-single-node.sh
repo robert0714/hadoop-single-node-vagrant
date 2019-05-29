@@ -65,6 +65,7 @@ sudo chown hduser:hadoop  -R /home/hduser/mydata
 cd /usr/local/hadoop/etc/hadoop
 sudo -u hduser sed -i.bak 's=<configuration>=<configuration>\<property>\<name>dfs\.replication</name>\<value>1\</value>\</property>\<property>\<name>dfs\.namenode\.name\.dir</name>\<value>file:/home/hduser/mydata/hdfs/namenode</value>\</property>\<property>\<name>dfs\.datanode\.data\.dir</name>\<value>file:/home/hduser/mydata/hdfs/datanode</value>\</property>=g' hdfs-site.xml
 
+## You maybee see the problem of authentication error.
 su hduser -c "/usr/local/hadoop/bin/hdfs namenode -format -force"
 
 # SSH into the box
