@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-
-sudo hduser sed -i.bak '10.100.192.100  master'  /etc/hosts
-sudo hduser sed -i.bak '10.100.192.101  data-1'  /etc/hosts
-sudo hduser sed -i.bak '10.100.192.102  master'  /etc/hosts
-sudo hduser sed -i.bak '10.100.192.103  master'  /etc/hosts
+ 
+sudo sh -c 'echo 10.100.192.100  master  >> /etc/hosts'
+sudo sh -c 'echo 10.100.192.101  data-1  >> /etc/hosts'
+sudo sh -c 'echo 10.100.192.102  data-2  >> /etc/hosts'
+sudo sh -c 'echo 10.100.192.103  data-3  >> /etc/hosts'
 
 
 
