@@ -123,3 +123,20 @@ You might get the following warning message every now and then:
     WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 
 This does no harm and can be ignored. For a fix, see http://stackoverflow.com/questions/19943766/hadoop-unable-to-load-native-hadoop-library-for-your-platform-error-on-centos.
+
+## Startup
+
+in master:
+
+```
+start-dfs.sh
+start-yarn.sh
+
+```
+or
+
+```
+
+start-all.sh
+
+```
