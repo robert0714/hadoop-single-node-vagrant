@@ -71,6 +71,10 @@ sudo chown hduser:hadoop  -R /home/hduser/mydata
 cd /usr/local/hadoop/etc/hadoop
 sudo -u hduser sed -i.bak 's=<configuration>=<configuration>\<property>\<name>dfs\.replication</name>\<value>1\</value>\</property>\<property>\<name>dfs\.namenode\.name\.dir</name>\<value>file:/home/hduser/mydata/hdfs/namenode</value>\</property>\<property>\<name>dfs\.datanode\.data\.dir</name>\<value>file:/home/hduser/mydata/hdfs/datanode</value>\</property>=g' hdfs-site.xml
 
+
+sudo sh -c 'echo master  >> /usr/local/hadoop/etc/hadoop/masters'
+sudo sh -c 'echo data-1 data-2 data-3 >> /usr/local/hadoop/etc/hadoop/slaves'
+
 ## You maybee see the problem of authentication error.
 su hduser -c "/usr/local/hadoop/bin/hdfs namenode -format -force"
 
@@ -91,6 +95,3 @@ su hduser -c "/usr/local/hadoop/bin/hdfs namenode -format -force"
 # Example
 # sudo -u hduser cd /usr/local/hadoop
 # sudo -u hduser hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar pi 2 5
-
-sudo sh -c 'echo master  >> /usr/local/hadoop/etc/hadoop/masters'
-sudo sh -c 'echo data-1 data-2 data-3 >> /usr/local/hadoop/etc/hadoop/slaves'
