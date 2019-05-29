@@ -9,7 +9,7 @@ You can find the code and README at the GitHub repo [hadoop-single-node-vagrant]
 Setting up the single node hadoop environment is as easy as:
 
 ```bash
-$ git clone https://github.com/baswenneker/hadoop-single-node-vagrant
+$ git clone https://github.com/robert0714/hadoop-single-node-vagrant.git
 $ vagrant up
 ```
 
