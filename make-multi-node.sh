@@ -5,9 +5,6 @@ sudo sh -c 'echo 10.100.192.101  data-1  >> /etc/hosts'
 sudo sh -c 'echo 10.100.192.102  data-2  >> /etc/hosts'
 sudo sh -c 'echo 10.100.192.103  data-3  >> /etc/hosts'
 
-
-
-
 #  Install rsync
 sudo apt-get install rsync
 
@@ -94,3 +91,6 @@ su hduser -c "/usr/local/hadoop/bin/hdfs namenode -format -force"
 # Example
 # sudo -u hduser cd /usr/local/hadoop
 # sudo -u hduser hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar pi 2 5
+
+sudo sh -c 'echo master  >> /usr/local/hadoop/etc/hadoop/masters'
+sudo sh -c 'echo data-1 data-2 data-3 >> /usr/local/hadoop/etc/hadoop/slaves'
