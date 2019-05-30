@@ -21,6 +21,7 @@ Vagrant.configure(2) do |config|
       d.vm.network "private_network", ip: "10.100.192.10#{i}"
       d.vm.provision :shell, inline: "sudo apt-get install -y python"
       d.vm.provider "virtualbox" do |v|
+        v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         v.memory = 2048
         v.cpus = 1
       end
