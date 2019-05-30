@@ -140,3 +140,12 @@ or
 start-all.sh
 
 ```
+
+## Ansible Usage
+
+```bash
+
+vagrant@master:/vagrant$ ansible-playbook  -k ansible/hadoop-s.yml -i ansible/hosts/hadoop
+
+
+```

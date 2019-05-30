@@ -1,0 +1,14 @@
+hosts: [
+  { host_ip: "10.100.192.100", host_name: "master"},
+  { host_ip: "10.100.192.101", host_name: "data-1"},
+  { host_ip: "10.100.192.102", host_name: "data-2"},
+  { host_ip: "10.100.192.103", host_name: "data-3"}
+]
+
+obsolete_services:
+  - puppet
+  - chef-client
+
+centos_files: [
+     { src: "centos.sshd_config", dest: "/etc/ssh/sshd_config" },
+  ]

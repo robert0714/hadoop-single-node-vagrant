@@ -1,0 +1,9 @@
+# centos的{{ ansible_eth1.ipv4.address }}確實可以動態抓到所登入機器的ip ,Ubuntu無法使用，只能用 "{{ facter_ipaddress_eth1 }}"是否能使用
+ip:  "{{ facter_ipaddress_eth1 }}"
+consul_extra: ""
+debian_version: bionic
+docker_cfg: docker.cfg
+docker_cfg_dest: /etc/default/docker
+centos_docker_cfg: centos-docker.cfg
+centos_docker_cfg_dest: /lib/systemd/system/docker.service
+

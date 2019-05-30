@@ -7,12 +7,17 @@ Vagrant.configure(2) do |config|
   config.vm.define "master" do |d|
     d.vm.box = "ubuntu/bionic64"
     d.vm.hostname = "master"
-    d.vm.network "private_network", ip: "10.100.192.100"
+    d.vm.network "private_network", ip: "10.100.192.100"        
     d.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]            
       v.memory = 2048
       v.cpus = 1
     end
+    d.vm.provision "shell", inline: <<-SHELL
+         sudo apt-add-repository ppa:ansible/ansible-2.8
+         sudo apt-get update && sudo apt-get install ansible -y
+         sudo cp /vagrant/ansible/ansible.cfg /etc/ansible/ansible.cfg
+      SHELL
   end  
   (1..3).each do |i|
     config.vm.define "data-#{i}" do |d|
@@ -25,7 +30,7 @@ Vagrant.configure(2) do |config|
         v.memory = 2048
         v.cpus = 1
       end
-      config.vm.provision "shell", inline: <<-SHELL
+      d.vm.provision "shell", inline: <<-SHELL
         sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config    
         sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config    
         service ssh restart

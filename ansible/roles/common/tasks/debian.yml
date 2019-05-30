@@ -1,0 +1,37 @@
+
+- name:  set-timezone Asia/Taipei
+  shell: timedatectl set-timezone Asia/Taipei
+  ignore_errors: yes
+  tags:  [common]
+
+- name: Install Hadoop  packages
+  apt: name={{ item }} state=present
+  with_items: 
+    - rsync
+    - nfs-common
+    - portmap
+  tags: [common]
+
+- name: JQ is present
+  apt:
+    name: jq
+    force: yes
+  ignore_errors: yes
+  tags: [common]
+
+- name: Host is present
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^{{ item.host_ip }}"
+    line: "{{ item.host_ip }} {{ item.host_name }}"
+  with_items:  "{{ hosts }}"
+  tags: [common]
+
+- name: Services are not running
+  service:
+    name: "{{ item }}"
+    state: stopped
+  ignore_errors: yes
+  with_items:  "{{ obsolete_services }}"
+  tags: [common]
+
