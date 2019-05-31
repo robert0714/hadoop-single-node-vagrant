@@ -1,0 +1,34 @@
+- name: Ensure group "hduser" exists
+  group:
+    name: hduser
+    state: present
+  tags: [hadoop-single]  
+
+- name: Add the user 'hduser' with a bash shell, appending the group 'hduser'   to the user's groups
+  user:
+    name: hduser
+    shell: /bin/bash
+    groups: hduser
+    password: hduser
+    home: /home/hduser
+    append: yes
+    expires: -1
+  tags: [hadoop-single]   
+
+- name: mkdir  /home/hduser/mydata/hdfs/namenode
+  file:
+    path: /home/hduser/mydata/hdfs/namenode
+    owner: hduser
+    group: hduser
+    state: directory
+    mode: 0777
+  tags: [hadoop-single] 
+
+- name: mkdir   /home/hduser/mydata/hdfs/datanode
+  file:
+    path:  /home/hduser/mydata/hdfs/datanode
+    owner: hduser
+    group: hduser
+    state: directory
+    mode: 0777
+  tags: [hadoop-single]     
