@@ -51,7 +51,7 @@
       become_user: root
       get_url:
         url: '{{hadoop_url}}'
-        dest: /tmp/{{hadoop_archive}}
+        dest: /vagrant/{{hadoop_archive}}
         checksum: '{{hadoop_checksum}}'
         mode: 0644
     - name: unarchive apache hadoop...
@@ -59,7 +59,7 @@
       become_user: root
       unarchive:
         remote_src: yes
-        src: /tmp/{{hadoop_archive}}
+        src: /vagrant/{{hadoop_archive}}
         dest: '{{hadoop_parent_dir}}'
         creates: '{{hadoop_dir}}'
         owner: hduser
@@ -69,7 +69,7 @@
       become: yes
       become_user: root
       file:
-        path: /tmp/{{hadoop_archive}}
+        path: /vagrant/{{hadoop_archive}}
         state: absent
 
 - name: link hadoop...
