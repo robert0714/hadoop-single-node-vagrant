@@ -100,6 +100,8 @@
   with_items: "{{ config_files }}"
   tags: [hadoop-single] 
 
-- name: Password based logins are disabled - only public key based logins are allowed. 
-- lineinfile: dest=/etc/ssh/sshd_config regexp='^#?PasswordAuthentication' line='PasswordAuthentication yes'
-- lineinfile: dest=/etc/ssh/sshd_config regexp='^#?ChallengeResponseAuthentication' line='ChallengeResponseAuthentication yes' 
+- name: public key based logins are allowed. -1
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^#?PasswordAuthentication' line='PasswordAuthentication yes'
+
+- name: public key based logins are allowed. -2  
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^#?ChallengeResponseAuthentication' line='ChallengeResponseAuthentication yes' 
