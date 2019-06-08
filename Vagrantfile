@@ -18,6 +18,9 @@ Vagrant.configure(2) do |config|
          sudo apt-add-repository ppa:ansible/ansible-2.8
          sudo apt-get update && sudo apt-get install ansible -y
          sudo cp /vagrant/ansible/ansible.cfg /etc/ansible/ansible.cfg
+         sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config    
+         sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config    
+         systemctl restart sshd
       SHELL
   end  
   (1..3).each do |i|
@@ -25,7 +28,7 @@ Vagrant.configure(2) do |config|
       d.vm.box = "ubuntu/bionic64"
       d.vm.hostname = "data-#{i}"
       d.vm.network "private_network", ip: "10.100.192.10#{i}"
-      d.vm.provision :shell, inline: "sudo apt-get install -y python"
+  #    d.vm.provision :shell, inline: "sudo apt-get install -y python"
       d.vm.provider "virtualbox" do |v|
         v.memory = 2048
         v.cpus = 1
@@ -33,7 +36,7 @@ Vagrant.configure(2) do |config|
       d.vm.provision "shell", inline: <<-SHELL
         sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config    
         sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config    
-        service sshd restart
+        systemctl restart sshd
       SHELL
     end
   end
