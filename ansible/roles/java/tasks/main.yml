@@ -4,3 +4,12 @@
 
 - include: centos.yml
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: link jdk...
+  become: yes
+  become_user: root
+  file:
+    state: link
+    src: '/usr/lib/jvm/java-8-openjdk-amd64'
+    dest: '/usr/lib/jvm/jdk'
+  
