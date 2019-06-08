@@ -64,13 +64,13 @@
         creates: '{{hadoop_dir}}'
         owner: hduser
         group: hadoop
-  always:
-    - name: cleanup...
-      become: yes
-      become_user: root
-      file:
-        path: /vagrant/{{hadoop_archive}}
-        state: absent
+  #always:
+  # - name: cleanup...
+  #    become: yes
+  #    become_user: root
+  #    file:
+  #      path: /vagrant/{{hadoop_archive}}
+  #      state: absent
 
 - name: link hadoop...
   become: yes
