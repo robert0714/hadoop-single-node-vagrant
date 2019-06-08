@@ -1,3 +1,5 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 Vagrant.configure(2) do |config|
   if (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
     config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=700,fmode=600"]
@@ -8,8 +10,7 @@ Vagrant.configure(2) do |config|
     d.vm.box = "ubuntu/bionic64"
     d.vm.hostname = "master"
     d.vm.network "private_network", ip: "10.100.192.100"        
-    d.vm.provider "virtualbox" do |v|
-      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]            
+    d.vm.provider "virtualbox" do |v|        
       v.memory = 2048
       v.cpus = 1
     end
@@ -26,7 +27,6 @@ Vagrant.configure(2) do |config|
       d.vm.network "private_network", ip: "10.100.192.10#{i}"
       d.vm.provision :shell, inline: "sudo apt-get install -y python"
       d.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         v.memory = 2048
         v.cpus = 1
       end
