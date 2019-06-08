@@ -19,7 +19,8 @@ Vagrant.configure(2) do |config|
          sudo apt-get update && sudo apt-get install ansible -y
          sudo cp /vagrant/ansible/ansible.cfg /etc/ansible/ansible.cfg
          sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config    
-         sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config    
+         sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config   
+         sudo cp /vagrant/sshd_config  /etc/ssh/sshd_config   
          systemctl restart sshd
       SHELL
   end  
@@ -36,6 +37,7 @@ Vagrant.configure(2) do |config|
       d.vm.provision "shell", inline: <<-SHELL
         sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config    
         sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config    
+        sudo cp /vagrant/sshd_config  /etc/ssh/sshd_config   
         systemctl restart sshd
       SHELL
     end
