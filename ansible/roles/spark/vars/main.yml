@@ -1,0 +1,9 @@
+---
+spark_name: 'spark-{{ spark_version }}'
+spark_archive: '{{ spark_name }}.tgz'
+
+# https://archive.apache.org/dist/spark/spark-2.4.3/spark-2.4.3.tgz
+spark_url: '{{spark_mirror}}/dist/spark/{{ spark_name }}/{{ spark_archive }}'
+spark_dir: '{{spark_parent_dir}}/{{spark_name}}'
+
+spark_checksum: '{{spark_checksums[spark_version]}}'
