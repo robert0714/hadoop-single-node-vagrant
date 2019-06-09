@@ -22,8 +22,6 @@
         src: /vagrant/{{scala_archive}}
         dest: '{{scala_parent_dir}}'
         creates: '{{scala_dir}}'
-        owner: hduser
-        group: scala
   #always:
   # - name: cleanup...
   #    become: yes
