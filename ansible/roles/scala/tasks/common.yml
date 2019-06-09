@@ -30,6 +30,13 @@
   #      path: /vagrant/{{scala_archive}}
   #      state: absent
  
+- name: link scala...
+  become: yes
+  become_user: root
+  file:
+    state: link
+    src: '{{scala_dir}}'
+    dest: '{{scala_parent_dir}}/scala' 
 
 - name: include scala in the default path...
   become: yes
