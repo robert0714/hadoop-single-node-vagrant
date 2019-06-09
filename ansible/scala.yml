@@ -2,6 +2,6 @@
   remote_user: vagrant
   serial: 1
   roles:
-    - common
-    - java
+          #    - common
+          #  - java
     - scala
