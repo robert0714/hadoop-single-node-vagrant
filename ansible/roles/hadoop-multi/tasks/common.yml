@@ -92,7 +92,13 @@
     src: '{{item.f}}.j2'
     dest: '{{item.d}}/{{item.f}}'
     mode: '{{item.m|default("0644")}}'
-
+    
+- name: include hadoop in the default path...
+  become: yes
+  become_user: root
+  shell: sudo -u hduser sed -i.bak s=\${JAVA_HOME}=/usr/lib/jvm/jdk/=g  /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+  ignore_errors: yes
+  
 - name: Configuration files are copied
   copy:
     src: "{{ item.src }}"
