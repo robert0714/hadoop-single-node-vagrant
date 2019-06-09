@@ -1,5 +1,5 @@
 ---
-hadoop_version: '2.6.5'
+hadoop_version: '2.8.5'
 hadoop_checksums:
   # https://dist.apache.org/repos/dist/release/hadoop/common/hadoop-2.6.5/hadoop-2.6.5.tar.gz.mds
   '2.6.5': sha256:001AD18D 4B6D0FE5 42B15DDA DBA2D092 BC97DF1C 4D2D7973 81C8D128 87691898
