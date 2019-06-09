@@ -2,7 +2,7 @@
 scala_version: '2.12.8'
 scala_checksums:    
   # https://fossies.org/linux/misc/legacy/scala-2.12.8.tgz/
-  '2.12.8': 440ea00c818fd88c5261dd85889711a9d1f7e6a39caa475fcf0583ab57db80a3
+  '2.12.8': sha256:440ea00c818fd88c5261dd85889711a9d1f7e6a39caa475fcf0583ab57db80a3
 scala_mirror: https://www.scala-lang.org
 scala_parent_dir: /usr/local
  
