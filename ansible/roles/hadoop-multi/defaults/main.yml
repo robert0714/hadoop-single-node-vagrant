@@ -4,6 +4,8 @@ hadoop_checksums:
   '2.7.4': sha256:8f791bfcfa5bb7c7ccd09910d490c02910dda93b19936ec2aedb8930bc5be111
   # https://dist.apache.org/repos/dist/release/hadoop/common/hadoop-2.7.6/hadoop-2.7.6.tar.gz.mds
   '2.7.6': sha256:F2327EA9 3F4BC5A5 D7150DEE 8E0EDE19 6D3A77FF 8526A7DD 05A48A09 AAE25669
+  # https://dist.apache.org/repos/dist/release/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz.mds
+  '2.7.7': sha256:D129D08A 2C9DAFEC 32855A37 6CBD2AB9 0C6A4279 0898CABB AC6BE4D2 9F9C2026
   '2.8.2': sha256:aea99c7ce8441749d81202bdea431f1024f17ee6e0efb3144226883207cc6292
   # https://dist.apache.org/repos/dist/release/hadoop/common/hadoop-2.8.4/hadoop-2.8.4.tar.gz.mds
   '2.8.4': sha256:6B545972 FDD73173 887CDBC3 E1CBD3CC 72068271 924EDEA8 2A0E7E65 3199B115
