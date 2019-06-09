@@ -13,8 +13,8 @@
       <name>dfs.datanode.data.dir</name>
       <value>file:/home/hduser/mydata/hdfs/datanode</value>
    </property>
-   <property>
+  <!-- <property>
       <name>dfs.permissions</name>
       <value>false</value>
-   </property>
+   </property> -->
 </configuration>
