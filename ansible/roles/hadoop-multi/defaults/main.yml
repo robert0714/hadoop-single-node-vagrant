@@ -1,5 +1,5 @@
 ---
-hadoop_version: '2.9.2'
+hadoop_version: '3.1.2'
 hadoop_checksums:
   '2.7.4': sha256:8f791bfcfa5bb7c7ccd09910d490c02910dda93b19936ec2aedb8930bc5be111
   # https://dist.apache.org/repos/dist/release/hadoop/common/hadoop-2.7.6/hadoop-2.7.6.tar.gz.mds
@@ -25,6 +25,8 @@ hadoop_checksums:
   '3.1.0': sha256:670D2CED 595FA42D 9FA1A93C 4E39B39F 47002CAD 1553D9DF 163EE828 CA5143E7
   # https://dist.apache.org/repos/dist/release/hadoop/common/hadoop-3.1.1/hadoop-3.1.1.tar.gz.mds
   '3.1.1': sha256:F837FE26 0587F716 29AAD1F4 FB671927 4E948111 DC96FFC5 A8E26F27 DEAC5602
+  # https://dist.apache.org/repos/dist/release/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz.mds
+  '3.1.2': sha256:1C02CCC6 0A09C63A 48DC4234 FFD3AED1 B75E5A1F 2B49D609 27EDA114 B93DD31A
 hadoop_mirror: http://apache.stu.edu.tw/hadoop/common
 hadoop_parent_dir: /usr/local
 config_files: [
