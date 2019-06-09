@@ -5,8 +5,16 @@
       <name>dfs.replication</name>
       <value>3</value>
    </property> 
+    <property>
+      <name>dfs.namenode.name.dir</name>
+      <value>file:/home/hduser/mydata/hdfs/namenode</value>
+   </property>
    <property>
       <name>dfs.datanode.data.dir</name>
       <value>file:/home/hduser/mydata/hdfs/datanode</value>
+   </property>
+   <property>
+      <name>dfs.permissions</name>
+      <value>false</value>
    </property>
 </configuration>
