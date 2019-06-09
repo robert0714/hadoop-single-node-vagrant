@@ -1,0 +1,9 @@
+---
+scala_name: 'scala-{{ scala_version }}'
+scala_archive: '{{ scala_name }}.tgz'
+
+# https://www.scala-lang.org/files/archive/scala-2.12.8.tgz
+scala_url: '{{scala_mirror}}/files/archive/{{ scala_archive }}'
+scala_dir: '{{scala_parent_dir}}/{{scala_name}}'
+
+scala_checksum: '{{scala_checksums[scala_version]}}'

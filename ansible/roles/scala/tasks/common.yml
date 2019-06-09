@@ -1,0 +1,46 @@
+- name: check for scala installation
+  become: yes
+  stat:
+    path: '{{scala_dir}}'
+  changed_when: false
+  register: scala_binary
+- when: not scala_binary.stat.exists
+  block:
+    - name: download  scala...
+      become: yes
+      become_user: root
+      get_url:
+        url: '{{scala_url}}'
+        dest: /vagrant/{{scala_archive}}
+        checksum: '{{scala_checksum}}'
+        mode: 0644
+    - name: unarchive apache scala...
+      become: yes
+      become_user: root
+      unarchive:
+        remote_src: yes
+        src: /vagrant/{{scala_archive}}
+        dest: '{{scala_parent_dir}}'
+        creates: '{{scala_dir}}'
+        owner: hduser
+        group: scala
+  #always:
+  # - name: cleanup...
+  #    become: yes
+  #    become_user: root
+  #    file:
+  #      path: /vagrant/{{scala_archive}}
+  #      state: absent
+ 
+
+- name: include scala in the default path...
+  become: yes
+  become_user: root
+  with_items:
+    - f: scala.sh
+      d: /etc/profile.d
+  template:
+    src: '{{item.f}}.j2'
+    dest: '{{item.d}}/{{item.f}}'
+    mode: '{{item.m|default("0644")}}'
+    
