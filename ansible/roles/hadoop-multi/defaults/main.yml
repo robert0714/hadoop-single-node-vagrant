@@ -1,5 +1,5 @@
 ---
-hadoop_version: '3.1.2'
+hadoop_version: '2.7.7'
 hadoop_checksums:
   '2.7.4': sha256:8f791bfcfa5bb7c7ccd09910d490c02910dda93b19936ec2aedb8930bc5be111
   # https://dist.apache.org/repos/dist/release/hadoop/common/hadoop-2.7.6/hadoop-2.7.6.tar.gz.mds
