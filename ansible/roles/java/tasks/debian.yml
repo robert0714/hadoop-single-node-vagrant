@@ -1,5 +1,6 @@
 - name: Package is present
   apt:
-    name=openjdk-8-jdk
-    state=present
+    name: openjdk-8-jdk
+    state: present
+    update_cache: yes
   tags: [java]
