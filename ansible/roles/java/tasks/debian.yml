@@ -1,6 +1,11 @@
+- apt_repository:
+    repo: ppa:openjdk-r/ppa  
+    state: present
+
+
 - name: Package is present
   apt:
-    name: openjdk-8-jdk
+    name: openjdk-7-jdk
     state: present
     update_cache: yes
   tags: [java]

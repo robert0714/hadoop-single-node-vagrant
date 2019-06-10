@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
     config.vm.synced_folder ".", "/vagrant"
   end
   config.vm.define "master" do |d|
-    d.vm.box = "ubuntu/bionic64"
+    d.vm.box = "ubuntu/xenial64"
     d.vm.hostname = "master"
     d.vm.network "private_network", ip: "10.100.192.100"        
     d.vm.provider "virtualbox" do |v|        
@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
   end  
   (1..3).each do |i|
     config.vm.define "data-#{i}" do |d|
-      d.vm.box = "ubuntu/bionic64"
+      d.vm.box = "ubuntu/xenial64"
       d.vm.hostname = "data-#{i}"
       d.vm.network "private_network", ip: "10.100.192.10#{i}"
   #    d.vm.provision :shell, inline: "sudo apt-get install -y python"
