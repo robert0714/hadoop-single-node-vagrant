@@ -29,14 +29,15 @@ sudo sh -c  "printf 'NoHostAuthenticationForLocalhost yes
 
 # Download Hadoop to the vagrant shared directory if it doesn't exist yet
 cd /vagrant
-if [ ! -f hadoop-2.9.2.tar.gz ]; then
-	wget http://apache.osuosl.org/hadoop/common/hadoop-2.9.2/hadoop-2.9.2.tar.gz
+if [ ! -f hadoop-2.7.7.tar.gz ]; then
+	wget http://apache.osuosl.org/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz
 fi
 # Unpack hadoop and install
-sudo tar vxzf hadoop-2.9.2.tar.gz -C /usr/local
+sudo tar vxzf hadoop-2.7.7.tar.gz -C /usr/local
 cd /usr/local
-sudo mv hadoop-2.9.2 hadoop
+sudo mv hadoop-2.7.7 hadoop
 sudo chown -R hduser:hadoop hadoop
+
 
 # Hadoop variables
 sudo sh -c 'echo export JAVA_HOME=/usr/lib/jvm/jdk/ >> /home/hduser/.bashrc'
@@ -49,6 +50,11 @@ sudo sh -c 'echo export HADOOP_HDFS_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashr
 sudo sh -c 'echo export YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_COMMON_LIB_NATIVE_DIR=\$\{HADOOP_INSTALL\}/lib/native >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_OPTS=\"-Djava.library.path=\$HADOOP_INSTALL/lib\" >> /home/hduser/.bashrc'
+
+
+sudo sh -c 'echo export HADOOP_PREFIX=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
+sudo sh -c 'echo export HADOOP_CONF_DIR=\$HADOOP_INSTALL/etc/hadoop >> /home/hduser/.bashrc'
+sudo sh -c 'echo export HADOOP_YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 
 # Modify JAVA_HOME 
 cd /usr/local/hadoop/etc/hadoop

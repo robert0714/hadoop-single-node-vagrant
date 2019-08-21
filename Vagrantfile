@@ -27,7 +27,8 @@ Vagrant.configure(2) do |config|
   end  
   (1..3).each do |i|
     config.vm.define "data-#{i}" do |d|
-      d.vm.box = "ubuntu/xenial64"
+ #    d.vm.box = "ubuntu/xenial64"
+      d.vm.box = "robert-hadoop-box"
       d.vm.hostname = "data-#{i}"
       d.vm.network "private_network", ip: "10.100.192.10#{i}"
   #    d.vm.provision :shell, inline: "sudo apt-get install -y python"

@@ -141,6 +141,20 @@ start-all.sh
 
 ```
 
+## Clone a new VM from Master box file
+
+```bash
+[hadoop-single-node-vagrant]$ vagrant halt master
+[hadoop-single-node-vagrant]$ vagrant package master  --output master.box
+[hadoop-single-node-vagrant]$ vagrant box add robert-hadoop-box master.box
+```
+
+Now you can create virtual machines from this box by simply giving the name of the box in the Vagrantfile, like
+
+```yaml
+config.vm.box = "robert-hadoop-box"
+```
+
 ## Ansible Usage
 
 ```bash
