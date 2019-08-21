@@ -23,6 +23,7 @@ Vagrant.configure(2) do |config|
          sudo cp /vagrant/sshd_config  /etc/ssh/sshd_config   
          systemctl restart sshd
       SHELL
+    d.vm.provision :shell, path: "scripts/post-deploy.sh"
   end  
   (1..3).each do |i|
     config.vm.define "data-#{i}" do |d|

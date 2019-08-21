@@ -18,7 +18,7 @@ The first command creates a folder *hadoop-single-node-vagrant* in the current d
 During the provisioning process we created a user called *hduser* which we use to execute Hadoop commands. To use the box we have to ssh into it using: 
 
 ```bash
-$ vagrant ssh -- -l hduser
+$ vagrant ssh master -- -l hduser
 ```
 
 The password of *hduser* is `hduser`.

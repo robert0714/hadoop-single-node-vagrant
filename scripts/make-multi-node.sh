@@ -1,31 +1,29 @@
 #!/usr/bin/env bash
  
-sudo sh -c 'echo 10.100.192.100  master  >> /etc/hosts'
-sudo sh -c 'echo 10.100.192.101  data-1  >> /etc/hosts'
-sudo sh -c 'echo 10.100.192.102  data-2  >> /etc/hosts'
-sudo sh -c 'echo 10.100.192.103  data-3  >> /etc/hosts'
+# sudo sh -c 'echo 10.100.192.100  master  >> /etc/hosts'
+# sudo sh -c 'echo 10.100.192.101  data-1  >> /etc/hosts'
+# sudo sh -c 'echo 10.100.192.102  data-2  >> /etc/hosts'
+# sudo sh -c 'echo 10.100.192.103  data-3  >> /etc/hosts'
 
 #  Install rsync
-sudo apt-get install rsync
+# sudo apt-get install rsync
 
 # Add hadoop user
-sudo addgroup hadoop
-sudo adduser --ingroup hadoop hduser
-echo hduser:hduser | sudo chpasswd
-sudo adduser hduser sudo
+# sudo addgroup hadoop
+# sudo adduser --ingroup hadoop hduser
+# echo hduser:hduser | sudo chpasswd
+# sudo adduser hduser sudo
 
-sudo -u hduser ssh-keygen -t rsa -P '' -f /home/hduser/.ssh/id_rsa
-sudo sh -c  "cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys"
-# Prevent ssh setup questions
-sudo sh -c  "printf 'NoHostAuthenticationForLocalhost yes
-Host *
-    StrictHostKeyChecking no' > /home/hduser/.ssh/config"
+# sudo -u hduser ssh-keygen -t rsa -P '' -f /home/hduser/.ssh/id_rsa
+# sudo sh -c  "cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys"
+# # Prevent ssh setup questions
+# sudo sh -c  "printf 'NoHostAuthenticationForLocalhost yes Host *  \
+#     StrictHostKeyChecking no' > /home/hduser/.ssh/config"
 
 # Download java jdk
-sudo apt-get update
-sudo apt-get install -y openjdk-8-jdk
-sudo ln -s java-8-openjdk-amd64 /usr/lib/jvm/jdk
-sudo apt-get install -y nfs-common portmap
+# sudo apt-get update
+# sudo apt-get install -y openjdk-8-jdk
+# sudo ln -s java-8-openjdk-amd64 /usr/lib/jvm/jdk
 
 # Download Hadoop to the vagrant shared directory if it doesn't exist yet
 cd /vagrant
