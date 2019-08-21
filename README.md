@@ -24,6 +24,13 @@ $ vagrant ssh master -- -l hduser
 The password of *hduser* is `hduser`.
 You're good to go!
 
+## For learning Hadoop, below are the hardware requirements:
+
+1. Minimum RAM Per a Node required: 4GB (Suggested: 8GB)
+1. Minimum Free Disk Space Per a Node: 25GB
+1. Minimum Processor i3 or above
+1. Operating System of 64bit (Suggested)
+
 ## Taking Hadoop for a testdrive
 Of course you want to see some action. We'll use the [Hadoop wordcount](http://hadoop.apache.org/docs/r1.2.1/mapred_tutorial.html "Hadoop Wordcount Example Tutorial") example to show off to your friends. 
 

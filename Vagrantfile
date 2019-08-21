@@ -7,17 +7,17 @@ Vagrant.configure(2) do |config|
     config.vm.synced_folder ".", "/vagrant"
   end
   config.vm.define "master" do |d|
-    d.vm.box = "ubuntu/xenial64"
+    d.vm.box = "bento/centos-7.6"
     d.vm.hostname = "master"
     d.vm.network "private_network", ip: "10.100.192.100"        
     d.vm.provider "virtualbox" do |v|        
-      v.memory = 2048
+      v.memory = 4096
       v.cpus = 1
     end
     d.vm.provision "shell", inline: <<-SHELL
-         sudo apt-add-repository ppa:ansible/ansible-2.8
-         sudo apt-get update && sudo apt-get install ansible -y
-         sudo cp /vagrant/ansible/ansible.cfg /etc/ansible/ansible.cfg
+ #          sudo apt-add-repository ppa:ansible/ansible-2.8
+ #          sudo apt-get update && sudo apt-get install ansible -y
+ #          sudo cp /vagrant/ansible/ansible.cfg /etc/ansible/ansible.cfg
          sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config    
          sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config   
          sudo cp /vagrant/sshd_config  /etc/ssh/sshd_config   
@@ -27,13 +27,13 @@ Vagrant.configure(2) do |config|
   end  
   (1..3).each do |i|
     config.vm.define "data-#{i}" do |d|
- #    d.vm.box = "ubuntu/xenial64"
+ #    d.vm.box = "bento/centos-7.6"
       d.vm.box = "robert-hadoop-box"
       d.vm.hostname = "data-#{i}"
       d.vm.network "private_network", ip: "10.100.192.10#{i}"
   #    d.vm.provision :shell, inline: "sudo apt-get install -y python"
       d.vm.provider "virtualbox" do |v|
-        v.memory = 2048
+        v.memory = 4096
         v.cpus = 1
       end
       d.vm.provision "shell", inline: <<-SHELL
