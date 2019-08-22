@@ -13,7 +13,7 @@ echo "
 " > /etc/hosts
 fi
 sudo apt-get update
-sudo apt-get  install -y rsync openjdk-8-jdk  nfs-common portmap
+sudo apt-get  install -y rsync openjdk-8-jdk  nfs-common portmap  
 sudo ln -s java-8-openjdk-amd64 /usr/lib/jvm/jdk
 
 # Add hadoop user
@@ -93,3 +93,45 @@ sudo sh -c 'echo data-1 data-2 data-3 > /usr/local/hadoop/etc/hadoop/slaves'
 echo 'You maybee see the problem of authentication error' 
 ## You maybee see the problem of authentication error.
 su hduser -c "/usr/local/hadoop/bin/hdfs namenode -format -force"
+
+
+# Download Scala to the vagrant shared directory if it doesn't exist yet
+cd /vagrant
+if [ ! -f scala-2.11.12.tgz ]; then
+	wget https://www.scala-lang.org/files/archive/scala-2.11.12.tgz
+fi
+# Unpack Scala and install
+sudo tar vxzf scala-2.11.12.tgz -C /usr/local
+cd /usr/local
+sudo mv scala-2.11.12 scala
+sudo chown -R hduser:hadoop scala
+
+# scala variables
+sudo sh -c 'echo export SCALA_HOME=/usr/local/scala >> /home/hduser/.bashrc'
+sudo sh -c 'echo export PATH=\$PATH:\$SCALA_HOME/bin >> /home/hduser/.bashrc'
+
+
+# Download Spark to the vagrant shared directory if it doesn't exist yet
+#  https://archive.apache.org/dist/spark/spark-2.0.0/spark-2.0.0-bin-hadoop2.7.tgz
+cd /vagrant
+if [ ! -f spark-2.4.3-bin-hadoop2.7.tgz ]; then
+	wget http://apache.stu.edu.tw/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+fi
+
+# Unpack Spark and install
+sudo tar vxzf spark-2.4.3-bin-hadoop2.7.tgz -C /usr/local
+cd /usr/local
+sudo mv spark-2.4.3-bin-hadoop2.7 spark
+sudo chown -R hduser:hadoop spark
+
+# Spark variables
+sudo sh -c 'echo export SPARK_HOME=/usr/local/spark >> /home/hduser/.bashrc'
+sudo sh -c 'echo export PATH=\$PATH:\$SPARK_HOME/bin >> /home/hduser/.bashrc'
+sudo sh -c 'echo export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:\$HADOOP_HOME/lib/native >> /home/hduser/.bashrc'
+
+# Copy log4j template to log4j.properties
+cd /usr/local/spark/conf/
+if [ ! -f log4j.properties ]; then
+	sudo cp   log4j.properties.template   log4j.properties
+fi
+sudo sed -i 's/log4j.rootCategory=INFO, console/log4j.rootCategory=WARN, console/g' /usr/local/spark/conf/log4j.properties    
