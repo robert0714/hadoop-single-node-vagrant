@@ -7,7 +7,8 @@ Vagrant.configure(2) do |config|
     config.vm.synced_folder ".", "/vagrant"
   end
   config.vm.define "master" do |d|
-    d.vm.box = "bento/centos-7.6"
+#    d.vm.box = "bento/centos-7.6"
+    d.vm.box = "ubuntu/xenial64"
     d.vm.hostname = "master"
     d.vm.network "private_network", ip: "10.100.192.100"        
     d.vm.provider "virtualbox" do |v|        
@@ -23,11 +24,13 @@ Vagrant.configure(2) do |config|
          sudo cp /vagrant/sshd_config  /etc/ssh/sshd_config   
          systemctl restart sshd
       SHELL
-    d.vm.provision :shell, path: "scripts/post-deploy.sh"
+#    d.vm.provision :shell, path: "scripts/post-deploy.sh"
+    d.vm.provision :shell, path: "scripts/post-deploy-ubuntu.sh"
   end  
   (1..3).each do |i|
     config.vm.define "data-#{i}" do |d|
  #    d.vm.box = "bento/centos-7.6"
+ #     d.vm.box = "ubuntu/xenial64"
       d.vm.box = "robert-hadoop-box"
       d.vm.hostname = "data-#{i}"
       d.vm.network "private_network", ip: "10.100.192.10#{i}"

@@ -12,7 +12,8 @@ echo "
 ######################################################
 " > /etc/hosts
 fi
-sudo  apt-get  install -y rsync openjdk-8-jdk  nfs-common portmap
+sudo apt-get update
+sudo apt-get  install -y rsync openjdk-8-jdk  nfs-common portmap
 sudo ln -s java-8-openjdk-amd64 /usr/lib/jvm/jdk
 
 # Add hadoop user
@@ -47,15 +48,19 @@ sudo sh -c 'echo export PATH=\$PATH:\$HADOOP_INSTALL/bin >> /home/hduser/.bashrc
 sudo sh -c 'echo export PATH=\$PATH:\$HADOOP_INSTALL/sbin >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_MAPRED_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_COMMON_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
+sudo sh -c 'echo export HADOOP_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_HDFS_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_COMMON_LIB_NATIVE_DIR=\$\{HADOOP_INSTALL\}/lib/native >> /home/hduser/.bashrc'
+sudo sh -c 'echo export JAVA_LIBRARY_PATH=\${HADOOP_HOME\}/lib/native >> /home/hduser/.bashrc' 
 sudo sh -c 'echo export HADOOP_OPTS=\"-Djava.library.path=\$HADOOP_INSTALL/lib\" >> /home/hduser/.bashrc'
 
 
 sudo sh -c 'echo export HADOOP_PREFIX=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_CONF_DIR=\$HADOOP_INSTALL/etc/hadoop >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
+
+
 
 # Modify JAVA_HOME 
 cd /usr/local/hadoop/etc/hadoop
