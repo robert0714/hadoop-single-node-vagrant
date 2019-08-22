@@ -306,3 +306,114 @@ http://10.100.192.100:4040/jobs/job/?id=1
 http://10.100.192.100:4040/stages/stage/?id=1&attempt=0
 
 <img src="pic/spark_web_ui_03.png"   border="5" />
+
+
+## Installation of Anaconda 2.0  
+
+```bash
+
+$ sudo -s
+root@master:/~# su - hduser
+hduser@data-1:~$ cd /vagrant/
+hduser@data-1:/vagrant$ bash Anaconda2-4.3.1-Linux-x86_64.sh  -b
+
+```
+
+# IPython Notebook 
+
+Step1. 建立ipynotebook 工作目錄 
+
+```bash
+mkdir -p ~/pythonwork/ipynotebook
+cd ~/pythonwork/ipynotebook
+```
+
+Step2. 在IPython Notebook 介面執行pyspark 
+
+```bash
+PYSPARK_DRIVER_PYTHON=ipython PYSPARK_DRIVER_PYTHON_OPTS="notebook" pyspark
+```
+
+Step6. 在IPython Notebook 執行程式碼 
+
+```bash
+sc.master
+```
+
+Step8. 讀取本機檔案程式碼 
+
+```bash
+textFile=sc.textFile("file:/usr/local/spark/README.md")
+textFile.count()
+```
+
+Step9. 輸入讀取HDFS 檔案程式碼 
+
+```bash
+textFile=sc.textFile("hdfs://master:9000/user/hduser/wordcount/input/LICENSE.txt")
+textFile.count()
+```
+
+ch09.ipynb 完整內容請參考本書附錄(APPENDIX A 本書範例程式下載與安裝說明) ，下載本章IPython Notebook 範例檔案。 
+http://www.drmaster.com.tw/download/example/MP21622_example.zip
+
+
+### 使用IPython Notebook在hadoop yarnclient模式執行 
+
+```bash
+start-all.sh
+cd ~/pythonwork/ipynotebook
+PYSPARK_DRIVER_PYTHON=ipython PYSPARK_DRIVER_PYTHON_OPTS="notebook" HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop MASTER=yarn-client pyspark
+```
+
+Step5. 在Hadoop Web 介面可以查看pyspark App 
+
+```
+http://localhost:8088/
+```
+
+### 使用IPython Notebook在Spark Stand Alone模式執行
+Step1. 啟動Spark Stand Alone cluster 
+
+```bash
+/usr/local/spark/sbin/start-all.sh
+```
+
+Step2. 啟動IPython Notebook 在Spark Stand Alone 模式 
+
+```bash
+cd ~/pythonwork/ipynotebook
+PYSPARK_DRIVER_PYTHON=ipython PYSPARK_DRIVER_PYTHON_OPTS="notebook" MASTER=spark://master:7077 pyspark --num-executors 1 --total-executor-cores 2 --executor-memory 512m
+```
+
+Step5. 查看Spark Standalone Web UI 介面 
+
+```
+http://master:8080/
+```
+
+### 在不同的模式執行IPython Notebook指令整理
+####  在Local 啟動IPython Notebook 
+
+```bash
+cd ~/pythonwork/ipynotebook
+PYSPARK_DRIVER_PYTHON=ipython PYSPARK_DRIVER_PYTHON_OPTS="notebook" pyspark --master local[*]
+```
+
+####　在hadoop yarn-client 模式啟動IPython Notebook 
+
+```bash
+start-all.sh
+
+PYSPARK_DRIVER_PYTHON=ipython PYSPARK_DRIVER_PYTHON_OPTS="notebook" HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop pyspark --master yarn --deploy-mode client
+```
+
+####　在Spark Stand Alone 模式啟動IPython Notebook
+
+```bash
+start-all.sh
+
+/usr/local/spark/sbin/start-all.sh
+
+PYSPARK_DRIVER_PYTHON=ipython PYSPARK_DRIVER_PYTHON_OPTS="notebook" MASTER=spark://master:7077 pyspark --num-executors 1 --total-executor-cores 3 --executor-memory 512m
+```

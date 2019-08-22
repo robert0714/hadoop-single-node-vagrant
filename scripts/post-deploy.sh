@@ -16,11 +16,9 @@ sudo  yum install epel-release -y
 sudo  yum install -y java-1.8.0-openjdk  java-1.8.0-openjdk-devel 
 sudo ln -s  /usr/lib/jvm/java-1.8.0-openjdk  /usr/lib/jvm/jdk
 
-
 # Add hadoop user
 sudo groupadd hadoop
 sudo useradd -g hadoop hduser
-
 echo hduser:hduser | sudo chpasswd
 sudo adduser hduser sudo
 
@@ -59,8 +57,6 @@ sudo sh -c 'echo export YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_COMMON_LIB_NATIVE_DIR=\$\{HADOOP_INSTALL\}/lib/native >> /home/hduser/.bashrc'
 sudo sh -c 'echo export JAVA_LIBRARY_PATH=\${HADOOP_HOME\}/lib/native >> /home/hduser/.bashrc' 
 sudo sh -c 'echo export HADOOP_OPTS=\"-Djava.library.path=\$HADOOP_INSTALL/lib\" >> /home/hduser/.bashrc'
-
-
 sudo sh -c 'echo export HADOOP_PREFIX=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_CONF_DIR=\$HADOOP_INSTALL/etc/hadoop >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
@@ -68,7 +64,6 @@ sudo sh -c 'echo export HADOOP_YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashr
 # Modify JAVA_HOME 
 cd /usr/local/hadoop/etc/hadoop
 sudo -u hduser sed -i.bak s=\${JAVA_HOME}=/usr/lib/jvm/jdk/=g hadoop-env.sh
-
 
 # Edit configuration files
 cd /usr/local/hadoop/etc/hadoop
@@ -125,8 +120,10 @@ fi
 # Unpack Spark and install
 sudo tar vxzf spark-2.0.2-bin-hadoop2.7.tgz -C /usr/local
 cd /usr/local
-sudo mv spark-2.0.2-bin-hadoop2.7    spark
-sudo chown -R hduser:hadoop spark 
+if [ ! -f spark ]; then
+	sudo mv spark-2.0.2-bin-hadoop2.7    spark
+	sudo chown -R hduser:hadoop spark
+fi
 
 # Spark variables
 sudo sh -c 'echo export SPARK_HOME=/usr/local/spark >> /home/hduser/.bashrc'
@@ -141,12 +138,28 @@ fi
  
 sudo sed -i 's/log4j.rootCategory=INFO, console/log4j.rootCategory=WARN, console/g' /usr/local/spark/conf/log4j.properties    
 
+# spark cluster configuration
 sudo cp /usr/local/spark/conf/spark-env.sh.template /usr/local/spark/conf/spark-env.sh
 sudo sh -c 'echo export SPARK_MASTER_IP=master >> /usr/local/spark/conf/spark-env.sh'
 sudo sh -c 'echo export SPARK_WORKER_CORES=1 >> /usr/local/spark/conf/spark-env.sh'
 sudo sh -c 'echo export SPARK_WORKER_MEMORY=512m >> /usr/local/spark/conf/spark-env.sh'
 sudo sh -c 'echo export SPARK_EXECUTOR_INSTANCES=4 >> /usr/local/spark/conf/spark-env.sh'
-
-
 sudo sh -c 'echo data-1 data-2 data-3 > /usr/local/spark/conf/slaves'
+
+
+# Download Anaconda to the vagrant shared directory if it doesn't exist yet
+cd /vagrant
+if [ ! -f Anaconda2-4.3.1-Linux-x86_64.sh ]; then
+	wget https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh
+fi
+# Unpack Anaconda and install
+sudo -u hduser  bash Anaconda2-4.3.1-Linux-x86_64.sh  -b -p /home/hduser/anaconda2
+sudo chown -R hduser:hadoop /home/hduser/anaconda2
+
+# Anaconda variables
+sudo sh -c 'echo export PATH=/home/hduser/anaconda2/bin:\$PATH >> /home/hduser/.bashrc'
+sudo sh -c 'echo export ANACONDA_PATH=/home/hduser/anaconda2 >> /home/hduser/.bashrc'
+sudo sh -c 'echo export PYSPARK_DRIVER_PYTHON=\$ANACONDA_PATH/bin/ipython >> /home/hduser/.bashrc'
+sudo sh -c 'echo export PYSPARK_PYTHON=\$ANACONDA_PATH/bin/python >> /home/hduser/.bashrc'
+ 
 
