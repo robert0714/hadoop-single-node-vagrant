@@ -60,6 +60,8 @@ sudo sh -c 'echo export HADOOP_OPTS=\"-Djava.library.path=\$HADOOP_INSTALL/lib\"
 sudo sh -c 'echo export HADOOP_PREFIX=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_CONF_DIR=\$HADOOP_INSTALL/etc/hadoop >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
+sudo sh -c 'echo export HADOOP_CLASSPATH=\${JAVA_HOME}/lib/tools.jar >> /home/hduser/.bashrc'
+
 
 # Modify JAVA_HOME 
 cd /usr/local/hadoop/etc/hadoop

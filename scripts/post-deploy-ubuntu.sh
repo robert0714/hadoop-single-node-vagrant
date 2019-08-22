@@ -60,6 +60,7 @@ sudo sh -c 'echo export HADOOP_OPTS=\"-Djava.library.path=\$HADOOP_INSTALL/lib\"
 sudo sh -c 'echo export HADOOP_PREFIX=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_CONF_DIR=\$HADOOP_INSTALL/etc/hadoop >> /home/hduser/.bashrc'
 sudo sh -c 'echo export HADOOP_YARN_HOME=\$HADOOP_INSTALL >> /home/hduser/.bashrc'
+sudo sh -c 'echo export HADOOP_CLASSPATH=\${JAVA_HOME}/lib/tools.jar >> /home/hduser/.bashrc'
 
 # Modify JAVA_HOME 
 cd /usr/local/hadoop/etc/hadoop
@@ -161,4 +162,7 @@ sudo sh -c 'echo export PATH=/home/hduser/anaconda2/bin:\$PATH >> /home/hduser/.
 sudo sh -c 'echo export ANACONDA_PATH=/home/hduser/anaconda2 >> /home/hduser/.bashrc'
 sudo sh -c 'echo export PYSPARK_DRIVER_PYTHON=\$ANACONDA_PATH/bin/ipython >> /home/hduser/.bashrc'
 sudo sh -c 'echo export PYSPARK_PYTHON=\$ANACONDA_PATH/bin/python >> /home/hduser/.bashrc'
- 
+
+# https://jupyter-notebook.readthedocs.io/en/stable/public_server.html
+# jupyter-notebook configuration
+sudo sh -c 'echo c.NotebookApp.ip = '\*' >> /home/hduser/.jupyter/jupyter_notebook_config.py'

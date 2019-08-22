@@ -318,6 +318,145 @@ hduser@data-1:~$ cd /vagrant/
 hduser@data-1:/vagrant$ bash Anaconda2-4.3.1-Linux-x86_64.sh  -b
 
 ```
+## Samples
+###  wordCount.java介紹
+在下列網址hadoop說明文件中有wordcount.java 的程式碼：
+
+http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html
+
+### 編輯wordCount.java
+Step1 建立wordcount目錄 
+
+```bash
+mkdir -p ~/wordcount/input
+cd  ~/wordcount
+```
+
+Step2 編輯WordCount.java
+
+```
+gedit WordCount.java
+```
+
+Step3~6 編輯WordCount.java
+
+在gedit 輸入 WordCount.java完整程式碼
+
+```java
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class WordCount {
+
+  public static class TokenizerMapper
+       extends Mapper{
+
+    private final static IntWritable one = new IntWritable(1);
+    private Text word = new Text();
+
+    public void map(Object key, Text value, Context context
+                    ) throws IOException, InterruptedException {
+      StringTokenizer itr = new StringTokenizer(value.toString());
+      while (itr.hasMoreTokens()) {
+        word.set(itr.nextToken());
+        context.write(word, one);
+      }
+    }
+  }
+
+  public static class IntSumReducer
+       extends Reducer {
+    private IntWritable result = new IntWritable();
+
+    public void reduce(Text key, Iterable values,
+                       Context context
+                       ) throws IOException, InterruptedException {
+      int sum = 0;
+      for (IntWritable val : values) {
+        sum += val.get();
+      }
+      result.set(sum);
+      context.write(key, result);
+    }
+  }
+
+  public static void main(String[] args) throws Exception {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, "word count");
+    job.setJarByClass(WordCount.class);
+    job.setMapperClass(TokenizerMapper.class);
+    job.setCombinerClass(IntSumReducer.class);
+    job.setReducerClass(IntSumReducer.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
+  }
+}
+```
+###  編譯wordCount.java
+Step1 修改編譯所需要的環境變數檔
+
+```bash
+sudo gedit ~/.bashrc
+```
+
+輸入下列內容 
+
+```bash
+export PATH=${JAVA_HOME}/bin:${PATH}
+export HADOOP_CLASSPATH=${JAVA_HOME}/lib/tools.jar
+```
+
+Step2 讓 ~/.bashrc 修改的設定值生效
+
+```bash
+source ~/.bashrc
+```
+Step3 開始編譯 
+
+```bash
+hadoop com.sun.tools.javac.Main WordCount.java
+jar cf wc.jar WordCount*.class
+ll
+```
+
+### 建立測試文字檔
+
+```bash
+cp /usr/local/hadoop/LICENSE.txt ~/wordcount/input
+ll ~/wordcount/input
+start-all.sh
+hadoop fs -mkdir -p /user/hduser/wordcount/input
+cd ~/wordcount/input
+hadoop fs -copyFromLocal LICENSE.txt /user/hduser/wordcount/input
+hadoop fs -ls /user/hduser/wordcount/input
+```
+
+### 執行wordCount.java
+
+```bash
+cd ~/wordcount
+hadoop jar wc.jar WordCount /user/hduser/wordcount/input/LICENSE.txt /user/hduser/wordcount/output
+```
+
+### 查看執行結果
+
+```bash
+hadoop fs -ls /user/hduser/wordcount/output
+hadoop fs -cat /user/hduser/wordcount/output/part-r-00000
+```
 
 # IPython Notebook 
 
@@ -330,24 +469,26 @@ cd ~/pythonwork/ipynotebook
 
 Step2. 在IPython Notebook 介面執行pyspark 
 
+http://10.100.192.100:8888/tree?
+
 ```bash
 PYSPARK_DRIVER_PYTHON=ipython PYSPARK_DRIVER_PYTHON_OPTS="notebook" pyspark
 ```
 
-Step6. 在IPython Notebook 執行程式碼 
+Step3. 在IPython Notebook 執行程式碼 
 
 ```bash
 sc.master
 ```
 
-Step8. 讀取本機檔案程式碼 
+Step4. 讀取本機檔案程式碼 
 
 ```bash
 textFile=sc.textFile("file:/usr/local/spark/README.md")
 textFile.count()
 ```
 
-Step9. 輸入讀取HDFS 檔案程式碼 
+Step5. 輸入讀取HDFS 檔案程式碼 
 
 ```bash
 textFile=sc.textFile("hdfs://master:9000/user/hduser/wordcount/input/LICENSE.txt")
@@ -377,6 +518,13 @@ Step1. 啟動Spark Stand Alone cluster
 
 ```bash
 /usr/local/spark/sbin/start-all.sh
+
+```
+分別啟動master與salves
+
+```bash
+/usr/local/spark/sbin/start-master.sh
+/usr/local/spark/sbin/start-slaves.sh
 ```
 
 Step2. 啟動IPython Notebook 在Spark Stand Alone 模式 
