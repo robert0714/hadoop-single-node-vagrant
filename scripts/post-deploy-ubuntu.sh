@@ -154,7 +154,7 @@ if [ ! -f Anaconda2-4.3.1-Linux-x86_64.sh ]; then
 	wget https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh
 fi
 # Unpack Anaconda and install
-sudo -u hduser  bash Anaconda2-4.3.1-Linux-x86_64.sh  -b -p /home/hduser/anaconda2
+sudo  bash Anaconda2-4.3.1-Linux-x86_64.sh  -b -p /home/hduser/anaconda2
 sudo chown -R hduser:hadoop /home/hduser/anaconda2
 
 # Anaconda variables
@@ -165,4 +165,6 @@ sudo sh -c 'echo export PYSPARK_PYTHON=\$ANACONDA_PATH/bin/python >> /home/hduse
 
 # https://jupyter-notebook.readthedocs.io/en/stable/public_server.html
 # jupyter-notebook configuration
-sudo sh -c 'echo c.NotebookApp.ip = '\*' >> /home/hduser/.jupyter/jupyter_notebook_config.py'
+sudo mkdir -p /home/hduser/.jupyter/
+sudo sh -c "echo  c.NotebookApp.ip = \'*\' > /home/hduser/.jupyter/jupyter_notebook_config.py"
+sudo chown -R hduser:hadoop /home/hduser/.jupyter
