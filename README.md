@@ -184,3 +184,125 @@ $ yarn-daemon.sh start nodemanager
 $ yarn-daemon.sh start resourcemanager
 
 ```
+
+##  本機執行pyspark 程式
+Step1 進入pyspark
+
+```bash
+pyspark --master local[*]
+```
+
+Step2. 查看目前的執行模式 
+
+```bash
+sc.master
+```
+Step3 讀取本機檔案
+
+```bash
+textFile=sc.textFile("file:/usr/local/spark/README.md")
+textFile.count()
+```
+
+Step4 讀取HDFS檔案
+
+```bash
+textFile=sc.textFile("hdfs://master:9000/user/hduser/wordcount/input/LICENSE.txt")
+textFile.count()
+```
+
+Step5. 離開pyspark
+
+```bash
+exit()
+```
+
+## Running Spark on YARN
+[reference] (http://pythonsparkhadoop.blogspot.com/2016/09/8-spark-20.html)
+
+Step1 在Hadoop YARN執行pyspark 
+
+```bash
+HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop  pyspark  --master  yarn  --deploy-mode  client
+```
+
+Step2. 查看目前的執行模式 
+
+```bash
+sc.master
+```
+
+Step3 讀取HDFS檔案
+
+```bash
+textFile=sc.textFile("hdfs://master:9000/user/hduser/wordcount/input/LICENSE.txt")
+textFile.count()
+```
+
+Step4. 在Hadoop Web 介面可以查看PySparkShell App
+
+```bash
+http://localhost:8088/
+```
+
+離開pyspark
+
+```bash
+exit()
+```
+
+## Spark standalone cluster
+Step1. 啟動Spark standalone cluster 
+同時啟動master與salves
+
+```bash
+/usr/local/spark/sbin/start-all.sh
+```
+
+分別啟動master與salves
+
+```bash
+/usr/local/spark/sbin/start-master.sh
+/usr/local/spark/sbin/start-slaves.sh
+```
+
+Step2. 在Spark Standalone 執行pyspark 
+
+```bash
+pyspark --master spark://master:7077 --num-executors 1 --total-executor-cores 3 --executor-memory 512m
+```
+
+Step3. 查看目前的執行模式 
+
+```bash
+sc.master
+```
+
+Step4. 讀取本機檔案
+
+```bash
+textFile=sc.textFile("file:/usr/local/spark/README.md")
+textFile.count()
+```
+
+Step5. 讀取HDFS 檔案
+
+```bash
+textFile=sc.textFile("hdfs://master:9000/user/hduser/wordcount/input/LICENSE.txt")
+textFile.count()
+```
+
+### Spark Web UI Interface
+http://10.100.192.100:8080/
+
+<img src="pic/spark_web_ui_01.png"   border="5" />
+
+### Spark Web UI Interface
+http://10.100.192.100:4040/jobs/job/?id=1
+
+<img src="pic/spark_web_ui_02.png"   border="5" />
+
+### Spark Web UI Interface
+http://10.100.192.100:4040/stages/stage/?id=1&attempt=0
+
+<img src="pic/spark_web_ui_03.png"   border="5" />

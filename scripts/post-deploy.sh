@@ -115,16 +115,18 @@ sudo sh -c 'echo export PATH=\$PATH:\$SCALA_HOME/bin >> /home/hduser/.bashrc'
 
 # Download Spark to the vagrant shared directory if it doesn't exist yet
 #  https://archive.apache.org/dist/spark/spark-2.0.0/spark-2.0.0-bin-hadoop2.7.tgz
+#  http://apache.stu.edu.tw/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+ 
 cd /vagrant
-if [ ! -f spark-2.4.3-bin-hadoop2.7.tgz ]; then
-	wget http://apache.stu.edu.tw/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+if [ ! -f spark-2.0.2-bin-hadoop2.7.tgz ]; then
+	wget https://archive.apache.org/dist/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.7.tgz
 fi
 
 # Unpack Spark and install
-sudo tar vxzf spark-2.4.3-bin-hadoop2.7.tgz -C /usr/local
+sudo tar vxzf spark-2.0.2-bin-hadoop2.7.tgz -C /usr/local
 cd /usr/local
-sudo mv spark-2.4.3-bin-hadoop2.7 spark
-sudo chown -R hduser:hadoop spark
+sudo mv spark-2.0.2-bin-hadoop2.7    spark
+sudo chown -R hduser:hadoop spark 
 
 # Spark variables
 sudo sh -c 'echo export SPARK_HOME=/usr/local/spark >> /home/hduser/.bashrc'
@@ -136,4 +138,15 @@ cd /usr/local/spark/conf/
 if [ ! -f log4j.properties ]; then
 	sudo cp   log4j.properties.template   log4j.properties
 fi
+ 
 sudo sed -i 's/log4j.rootCategory=INFO, console/log4j.rootCategory=WARN, console/g' /usr/local/spark/conf/log4j.properties    
+
+sudo cp /usr/local/spark/conf/spark-env.sh.template /usr/local/spark/conf/spark-env.sh
+sudo sh -c 'echo export SPARK_MASTER_IP=master >> /usr/local/spark/conf/spark-env.sh'
+sudo sh -c 'echo export SPARK_WORKER_CORES=1 >> /usr/local/spark/conf/spark-env.sh'
+sudo sh -c 'echo export SPARK_WORKER_MEMORY=512m >> /usr/local/spark/conf/spark-env.sh'
+sudo sh -c 'echo export SPARK_EXECUTOR_INSTANCES=4 >> /usr/local/spark/conf/spark-env.sh'
+
+
+sudo sh -c 'echo data-1 data-2 data-3 > /usr/local/spark/conf/slaves'
+
